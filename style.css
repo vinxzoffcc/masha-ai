@@ -1,0 +1,71 @@
+/* Gunakan Root & Pixel Loader dari kode sebelumnya */
+
+.chat-container {
+    height: 400px;
+    background: var(--card-bg);
+    border: 2px solid var(--border-color);
+    box-shadow: 5px 5px 0px var(--accent-color);
+    border-radius: 8px;
+    margin: 20px 0;
+    padding: 20px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.message {
+    padding: 10px 15px;
+    border-radius: 6px;
+    max-width: 80%;
+    border: 2px solid var(--border-color);
+    line-height: 1.4;
+    word-wrap: break-word;
+}
+
+.user {
+    align-self: flex-end;
+    background-color: #ffeb3b; /* Kuning cerah Neo-Brutalism */
+    box-shadow: 3px 3px 0px var(--border-color);
+}
+
+.ai {
+    align-self: flex-start;
+    background-color: #fff;
+    box-shadow: 3px 3px 0px var(--border-color);
+}
+
+.header-info {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+#model-select {
+    font-family: 'Ubuntu Mono';
+    font-weight: 700;
+    padding: 5px;
+    border: 2px solid var(--border-color);
+    border-radius: 4px;
+}
+
+.ai-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+}
+
+.input-area {
+    display: flex;
+    gap: 10px;
+    padding: 10px;
+}
+
+#user-input {
+    flex-grow: 1;
+    border: 2px solid var(--border-color);
+    padding: 10px;
+    border-radius: 6px;
+    font-family: 'Ubuntu Mono';
+}
