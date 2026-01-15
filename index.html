@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Masha AI</title>
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="loading-overlay" class="pixel-loader-container">
+        <div class="pixel-loader">
+            <div class="pixel-box"></div>
+            <p id="loading-text">LOADINGG...</p>
+        </div>
+    </div>
+
+    <div class="main-container">
+        <div class="ai-header card">
+            <div class="header-info">
+                <span class="ai-name">Masha AI</span>
+                <select id="model-select">
+                    <option value="gemini">Masha Pintar v1.0</option>
+                    <option value="groq">Masha Cepat v1.0</option>
+                </select>
+            </div>
+            <button id="clear-btn" title="Clear Chat">Clear</button>
+        </div>
+
+        <div id="chat-box" class="chat-container">
+            <div class="message ai">Halo! Aku Masha. Ada yang bisa aku bantu hari ini?</div>
+        </div>
+
+        <div class="input-area card">
+            <input type="text" id="user-input" placeholder="Tanya Masha sesuatu...">
+            <button id="send-btn">Send</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
