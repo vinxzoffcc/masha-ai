@@ -3,7 +3,7 @@ const app = express();
 app.use(express.json());
 
 const CONFIG = {
-    geminiKey: "AIzaSyDq-e9kewD6rGVyrZfdjLZC7J1n74X1uf8",
+    geminiKey: "AIzaSyBEATnYdqZ01W7oJiOr_PFqWOdanHPAIQY",
     groqKey: "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"
 };
 
