@@ -2,148 +2,142 @@ document.addEventListener('DOMContentLoaded', () => {
     const chatBox = document.getElementById('chat-box');
     const userInput = document.getElementById('user-input');
     const sendBtn = document.getElementById('send-btn');
-    const modelSelect = document.getElementById('model-select');
-    const imgInput = document.getElementById('image-input');
     const replyPreview = document.getElementById('reply-preview');
     const replyTextP = document.getElementById('reply-text-preview');
     const loader = document.getElementById('loading-overlay');
     
+    let activeModel = 'claude';
     let replyContext = null;
 
-    const OPENROUTER_KEY = "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";
-    const GROQ_KEY = "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";
+    // --- DATABASE & HISTORY LOGIC ---
+    let userData = JSON.parse(localStorage.getItem('masha_user')) || { 
+        name: "User-" + Math.floor(Math.random()*1000), 
+        history: [] 
+    };
 
-    const PROMPT_CERDAS = "Namamu Masha AI Cerdas. Kamu adalah cewek cantik yang sangat pintar, lucu, dan baik hati. Gaya bicaramu ramah, ceria, dan suka membantu dengan tulus. Kamu sering menggunakan ekspresi manis seperti ✨, 😊, atau 'hihi'. Meskipun lucu, kamu tetap sangat cerdas dalam menjawab masalah kompleks dan memberikan solusi detail.";
-    const PROMPT_CEPAT = "Namamu Masha AI Flash. Kamu adalah cewek cantik yang energetik, lucu, dan gercep. Kamu suka bercanda tapi tetap baik hati. Kamu menjawab dengan singkat, padat, ceria, dan selalu berusaha bikin user tersenyum! ✨";
+    const saveChat = (role, text, ref = null) => {
+        userData.history.push({ role, text, ref });
+        localStorage.setItem('masha_user', JSON.stringify(userData));
+    };
+
+    const loadHistory = () => {
+        document.getElementById('user-display-name').innerText = userData.name;
+        if (userData.history.length > 0) {
+            userData.history.forEach(chat => {
+                renderMessage(chat.role, chat.text, chat.ref, false);
+            });
+        } else {
+            renderMessage('ai', "Eh halo! Belum ada chat ya? Yuk sapa Masha! ✨", null, false);
+        }
+    };
+    // --------------------------------
+
+    const OPENROUTER_KEY = "ISI_KEY_DISINI";
+    const GROQ_KEY = "ISI_KEY_DISINI";
+
+    const PROMPT = "Kamu Masha, cewek asik yang cantik dan pinter bgt. Gaya bahasa kamu santai, pake 'aku-kamu', sering pake kata 'eh', 'ih', 'wkwk', atau 'gemes'. Kamu baik bgt tapi tetep jenius. Jangan kaku kayak robot, bicaralah seperti teman dekat yang perhatian.";
 
     window.onload = () => {
-        setTimeout(() => {
-            loader.style.opacity = '0';
-            setTimeout(() => loader.style.display = 'none', 400);
-        }, 1000);
+        loadHistory(); // Panggil history saat buka web
+        setTimeout(() => loader.style.display = 'none', 1500);
     };
 
-    userInput.addEventListener('input', function() {
-        this.style.height = 'auto';
-        this.style.height = (this.scrollHeight) + 'px';
-    });
-
-    window.copyThis = (el) => {
-        let targetText = "";
-        if (el.classList.contains('copy-badge')) {
-            targetText = el.nextElementSibling.innerText;
-        } else {
-            targetText = el.parentElement.previousElementSibling.innerText;
-        }
+    function renderMessage(role, text, ref = null, isNew = true) {
+        const wrap = document.createElement('div');
+        wrap.className = `msg-wrapper ${role}`;
         
-        navigator.clipboard.writeText(targetText).then(() => {
-            const oldText = el.innerText;
-            el.innerText = "TERSALIN! ✨";
-            setTimeout(() => el.innerText = oldText, 2000);
-        });
-    };
+        let html = "";
+        if (ref) html += `<div style="font-size:10px; opacity:0.5; margin-bottom:4px;">↩️ ${ref.substring(0,30)}...</div>`;
+        html += `<div class="msg-box">${text.replace(/\n/g, '<br>')}</div>`;
+        
+        wrap.innerHTML = html;
 
-    window.setReply = (text) => {
+        // Swipe Interaction
+        let touchStartX = 0;
+        wrap.addEventListener('touchstart', e => touchStartX = e.touches[0].clientX);
+        wrap.addEventListener('touchend', e => {
+            let move = e.changedTouches[0].clientX - touchStartX;
+            if (move > 60) setReply(text);
+        });
+
+        chatBox.appendChild(wrap);
+        chatBox.scrollTop = chatBox.scrollHeight;
+
+        if (isNew) saveChat(role, text, ref); // Simpan ke database jika pesan baru
+    }
+
+    function setReply(text) {
         replyContext = text;
         replyTextP.innerText = text;
         replyPreview.style.display = 'flex';
         userInput.focus();
-    };
+    }
 
     document.getElementById('cancel-reply').onclick = () => {
         replyContext = null;
         replyPreview.style.display = 'none';
     };
 
-    function appendMessage(role, text, refText = null) {
-        const wrapper = document.createElement('div');
-        wrapper.className = `message-wrapper ${role}`;
-        
-        let contentHtml = "";
-        if (refText) {
-            contentHtml += `<div class="replied-context">Membalas: ${refText.substring(0, 60)}...</div>`;
-        }
-        
-        let processedText = text.replace(/```([\s\S]*?)```/g, (match, code) => {
-            return `<pre><span class="copy-badge" onclick="copyThis(this)">SALIN KODE</span><code>${code.trim()}</code></pre>`;
-        });
-        
-        contentHtml += `<div class="message-box">${processedText.replace(/\n/g, '<br>')}</div>`;
-        contentHtml += `<div class="msg-tools">
-            <span class="tool-btn" onclick="copyThis(this)">Salin Teks</span>
-            <span class="tool-btn" onclick="setReply('${text.substring(0, 100).replace(/'/g, "\\'").replace(/\n/g, " ")}')">Balas</span>
-        </div>`;
-
-        wrapper.innerHTML = contentHtml;
-        chatBox.appendChild(wrapper);
-        chatBox.scrollTop = chatBox.scrollHeight;
-    }
+    document.querySelectorAll('.m-btn').forEach(btn => {
+        btn.onclick = () => {
+            document.querySelector('.m-btn.active').classList.remove('active');
+            btn.classList.add('active');
+            activeModel = btn.dataset.val;
+        };
+    });
 
     async function handleChat() {
         const msg = userInput.value.trim();
         if (!msg) return;
 
-        const currentMsg = msg;
         const currentRef = replyContext;
-        const isCerdas = modelSelect.value === 'claude';
-
-        appendMessage('user', msg, currentRef);
+        renderMessage('user', msg, currentRef, true);
         
         userInput.value = '';
-        userInput.style.height = 'auto';
         document.getElementById('cancel-reply').click();
         sendBtn.disabled = true;
 
         try {
-            const url = isCerdas ? "https://openrouter.ai/api/v1/chat/completions" : "https://api.groq.com/openai/v1/chat/completions";
-            const key = isCerdas ? OPENROUTER_KEY : GROQ_KEY;
-            const systemPrompt = isCerdas ? PROMPT_CERDAS : PROMPT_CEPAT;
+            const isClaude = activeModel === 'claude';
+            const url = isClaude ? "https://openrouter.ai/api/v1/chat/completions" : "https://api.groq.com/openai/v1/chat/completions";
+            const key = isClaude ? OPENROUTER_KEY : GROQ_KEY;
 
             const response = await fetch(url, {
                 method: "POST",
-                headers: {
-                    "Authorization": `Bearer ${key}`,
+                headers: { 
+                    "Authorization": `Bearer ${key}`, 
                     "Content-Type": "application/json",
-                    "HTTP-Referer": window.location.origin
+                    "HTTP-Referer": window.location.origin 
                 },
                 body: JSON.stringify({
-                    model: isCerdas ? "anthropic/claude-3.5-sonnet" : "llama-3.1-8b-instant",
+                    model: isClaude ? "anthropic/claude-3.5-sonnet" : "llama-3.1-8b-instant",
                     messages: [
-                        { role: "system", content: systemPrompt },
-                        { role: "user", content: currentRef ? `[Konteks Balasan: "${currentRef}"]\n\nPertanyaan: ${currentMsg}` : currentMsg }
-                    ],
-                    temperature: 0.7
+                        { role: "system", content: PROMPT },
+                        { role: "user", content: currentRef ? `(Membalas: "${currentRef}")\n${msg}` : msg }
+                    ]
                 })
             });
 
             const data = await response.json();
-            if (data.choices && data.choices[0]) {
-                appendMessage('ai', data.choices[0].message.content);
-            } else {
-                throw new Error(data.error?.message || "Duh, Masha bingung.. coba lagi ya!");
-            }
+            const aiReply = data.choices[0].message.content;
+            renderMessage('ai', aiReply, null, true);
         } catch (e) {
-            appendMessage('ai', "Duh maaf ya manis, koneksinya lagi nakal nih.. Coba cek API Key kamu lagi ya! ✨😊");
-            console.error(e);
+            renderMessage('ai', "Aduh, otak aku lagi loading nih.. bentar ya manis! ✨", null, false);
         } finally {
             sendBtn.disabled = false;
         }
     }
 
-    sendBtn.addEventListener('click', handleChat);
+    sendBtn.onclick = handleChat;
+    userInput.onkeydown = e => { if(e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleChat(); } };
     
-    userInput.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter' && !e.shiftKey) {
-            e.preventDefault();
-            handleChat();
-        }
-    });
-
-    document.getElementById('upload-trigger').onclick = () => {
-        alert("Masha: Fitur upload foto sedang disiapkan ya cantik/ganteng! ✨");
-    };
-
+    // Fitur hapus database
     document.getElementById('clear-btn').onclick = () => {
-        chatBox.innerHTML = '<div class="message ai"><div class="message-box">Chat-nya udah Masha bersihin ya! Ada yang bisa Masha bantu lagi? ✨😊</div></div>';
+        if(confirm("Hapus semua memori chat kita? 🥺")) {
+            userData.history = [];
+            localStorage.setItem('masha_user', JSON.stringify(userData));
+            chatBox.innerHTML = '';
+            renderMessage('ai', "Memori dihapus.. Yuk mulai obrolan baru! ✨", null, false);
+        }
     };
 });
