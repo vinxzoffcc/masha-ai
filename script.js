@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const clearBtn = document.getElementById('clear-btn');
     const loader = document.getElementById('loading-overlay');
 
-    const geminiApiKey = "ISI_API_KEY_DI_SINI";
+    const geminiApiKey = "AIzaSyDuSIb7-dCDw8J2qi5x8GTID7v15tjXjpI";
     const groqApiKey = "ISI_API_KEY_DI_SINI";
 
     const PROMPT_GEMINI = "Namamu adalah Masha Pintar. Jawab dengan bijaksana dan detail.";
