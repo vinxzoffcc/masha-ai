@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const loader = document.getElementById('loading-overlay');
 
     const geminiApiKey = "AIzaSyDuSIb7-dCDw8J2qi5x8GTID7v15tjXjpI";
-    const groqApiKey = "ISI_API_KEY_DI_SINI";
+    const groqApiKey = "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";
 
     const PROMPT_GEMINI = "Namamu adalah Masha Pintar. Jawab dengan bijaksana dan detail.";
     const PROMPT_GROQ = "Namamu adalah Masha Cepat. Jawab dengan singkat dan energetik.";
