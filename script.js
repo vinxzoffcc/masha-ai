@@ -32,8 +32,8 @@ document.addEventListener('DOMContentLoaded', () => {
     };
     // --------------------------------
 
-    const OPENROUTER_KEY = "ISI_KEY_DISINI";
-    const GROQ_KEY = "ISI_KEY_DISINI";
+    const OPENROUTER_KEY = "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";
+    const GROQ_KEY = "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";
 
     const PROMPT = "Kamu Masha, cewek asik yang cantik dan pinter bgt. Gaya bahasa kamu santai, pake 'aku-kamu', sering pake kata 'eh', 'ih', 'wkwk', atau 'gemes'. Kamu baik bgt tapi tetep jenius. Jangan kaku kayak robot, bicaralah seperti teman dekat yang perhatian.";
 
