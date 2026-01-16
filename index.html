@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Masha AI Premium</title>
+    <title>Masha AI v1.0</title>
     <link href="https://fonts.googleapis.com/css2?family=Ubuntu+Mono:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
@@ -11,7 +11,7 @@
     <div id="loading-overlay" class="pixel-loader-container">
         <div class="pixel-loader">
             <div class="pixel-box"></div>
-            <p id="loading-text">CONNECTING TO MASHA...</p>
+            <p id="loading-text">LOADINGG UP MASHA...</p>
         </div>
     </div>
 
@@ -20,23 +20,30 @@
             <div class="header-info">
                 <span class="ai-name">Masha AI v2.0</span>
                 <select id="model-select">
-                    <option value="smart">Masha Pintar v2.0 (Mistral-Large)</option>
-                    <option value="groq">Masha Cepat v1.0 (Llama-3)</option>
+                    <option value="openrouter">Masha Pintar (OpenRouter - Vision)</option>
+                    <option value="groq">Masha Cepat (Groq - Turbo Chat)</option>
                 </select>
             </div>
-            <button id="clear-btn">Clear Chat</button>
+            <button id="clear-btn">Clear</button>
         </div>
 
         <div id="chat-box" class="chat-container">
-            <div class="message ai">Halo! Aku Masha. Aku sudah ditingkatkan menjadi lebih pintar sekarang! ✨</div>
+            <div class="message ai">Halo! Aku Masha siap membantu anda! ✨</div>
+        </div>
+
+        <div id="preview-container" class="preview-box" style="display: none;">
+             <img id="img-preview">
+             <button id="remove-img">X</button>
         </div>
 
         <div class="input-area card">
-            <input type="text" id="user-input" placeholder="Tanya Masha atau tempel link gambar...">
+            <button id="upload-trigger" type="button">📷</button>
+            <input type="file" id="image-input" accept="image/*" style="display: none;">
+            <input type="text" id="user-input" placeholder="Tanya sesuatu...">
             <button id="send-btn">Send</button>
         </div>
 
-        <div class="watermark">MASHA PROJECT &bull; PREMIERE AI</diMASHA
+        <div class="watermark">MASHA AI &bull; DZAKII</div>
     </div>
 
     <script src="script.js"></script>
