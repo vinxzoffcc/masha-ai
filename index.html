@@ -3,52 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Masha AI - Powered by Vinz</title>
-    <link href="https://fonts.googleapis.com/css2?family=Ubuntu+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <title>Masha AI - Vinz Project</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div id="loading-overlay" class="pixel-loader-container">
-        <div class="pixel-loader">
-            <div class="pixel-box"></div>
-            <p id="loading-text">WAKING UP MASHA...</p>
-        </div>
+    <div id="loading-overlay" class="loader">
+        <div class="purple-glow"></div>
+        <p>HI, I'M MASHA ✨</p>
     </div>
 
-    <div class="app-wrapper">
-        <header class="card">
-            <div class="header-left">
-                <span class="ai-status-dot"></span>
-                <span class="ai-name">Masha AI v3.0</span>
+    <div class="app-container">
+        <header>
+            <div class="user-profile">
+                <div class="avatar">M</div>
+                <div>
+                    <h2 id="user-display-name">Loading...</h2>
+                    <span class="status">Online</span>
+                </div>
             </div>
-            <button id="clear-btn">New Chat</button>
+            <button id="clear-btn" class="icon-btn">🗑️</button>
         </header>
 
-        <main id="chat-box" class="chat-viewport"></main>
+        <main id="chat-box" class="chat-area"></main>
 
-        <div id="reply-preview" class="reply-bar">
-            <div class="reply-content">
-                <small>Membalas:</small>
+        <div id="reply-preview" class="swipe-preview">
+            <div class="reply-line"></div>
+            <div class="reply-text-box">
+                <small>Membalas pesan</small>
                 <p id="reply-text-preview"></p>
             </div>
             <button id="cancel-reply">×</button>
         </div>
 
-        <footer class="input-container card">
-            <div class="model-selector-bottom">
-                <select id="model-select">
-                    <option value="claude">Masha AI Cerdas (Claude 3.5)</option>
-                    <option value="groq">Masha AI Flash (Llama 3.1)</option>
-                </select>
+        <footer class="input-section">
+            <div class="model-row">
+                <button class="m-btn active" data-val="claude">Cerdas</button>
+                <button class="m-btn" data-val="groq">Flash</button>
             </div>
-            <div class="input-wrapper">
-                <button id="upload-trigger" type="button">📷</button>
-                <input type="file" id="image-input" accept="image/*" style="display: none;">
-                <textarea id="user-input" placeholder="Tanya Masha..." rows="1"></textarea>
-                <button id="send-btn">Kirim</button>
+            <div class="input-card">
+                <textarea id="user-input" placeholder="Ketik pesan..." rows="1"></textarea>
+                <button id="send-btn">🚀</button>
             </div>
         </footer>
-        <div class="watermark">MASHA PROJECT &bull; CREATED BY VINZ</div>
+        <div class="vinz-wm">MASHA AI &bull; BY VINZ</div>
     </div>
 
     <script src="script.js"></script>
