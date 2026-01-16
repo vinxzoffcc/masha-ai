@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Masha AI</title>
+    <title>Masha AI Premium</title>
     <link href="https://fonts.googleapis.com/css2?family=Ubuntu+Mono:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
@@ -11,34 +11,32 @@
     <div id="loading-overlay" class="pixel-loader-container">
         <div class="pixel-loader">
             <div class="pixel-box"></div>
-            <p id="loading-text">LOADING MASHA...</p>
+            <p id="loading-text">CONNECTING TO MASHA...</p>
         </div>
     </div>
 
     <div class="main-container">
         <div class="ai-header card">
             <div class="header-info">
-                <span class="ai-name">Masha AI</span>
+                <span class="ai-name">Masha AI v2.0</span>
                 <select id="model-select">
-                    <option value="gemini">Masha Pintar v1.0</option>
-                    <option value="groq">Masha Cepat v1.0</option>
+                    <option value="smart">Masha Pintar v2.0 (Mistral-Large)</option>
+                    <option value="groq">Masha Cepat v1.0 (Llama-3)</option>
                 </select>
             </div>
-            <button id="clear-btn">Clear</button>
+            <button id="clear-btn">Clear Chat</button>
         </div>
 
         <div id="chat-box" class="chat-container">
-            <div class="message ai">Halo! Aku Masha. Ada yang bisa aku bantu hari ini? ✨</div>
+            <div class="message ai">Halo! Aku Masha. Aku sudah ditingkatkan menjadi lebih pintar sekarang! ✨</div>
         </div>
 
         <div class="input-area card">
-            <input type="text" id="user-input" placeholder="Tanya Masha sesuatu...">
+            <input type="text" id="user-input" placeholder="Tanya Masha atau tempel link gambar...">
             <button id="send-btn">Send</button>
         </div>
 
-        <div class="watermark">
-            <span>Powered by Masha Project &bull; 2024</span>
-        </div>
+        <div class="watermark">MASHA PROJECT &bull; PREMIERE AI</diMASHA
     </div>
 
     <script src="script.js"></script>
