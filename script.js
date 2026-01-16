@@ -39,6 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
             })
         });
         const data = await response.json();
+        if (data.error) throw new Error(data.error.message);
         return data.candidates[0].content.parts[0].text;
     }
 
@@ -59,6 +60,7 @@ document.addEventListener('DOMContentLoaded', () => {
             })
         });
         const data = await response.json();
+        if (data.error) throw new Error(data.error.message);
         return data.choices[0].message.content;
     }
 
@@ -80,8 +82,8 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             appendMessage('ai', reply);
         } catch (e) {
-            console.error(e);
-            appendMessage('ai', "Waduh, koneksi Masha lagi bermasalah nih. Coba cek API Key atau internet kamu ya!");
+            console.error("Masha Error Details:", e);
+            appendMessage('ai', `Waduh: ${e.message}`);
         } finally {
             sendBtn.disabled = false;
         }
